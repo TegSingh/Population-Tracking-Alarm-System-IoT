@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>
-            Population Tracker
-        </title>
-    </head>
-    <body>
-        <h1>Population Tracking Alarm System</h1>
-        <h2>{{population}}</h2>
-    </body>
-</html>
+{% extends "population_tracker/base.html" %}
+{% block content %}
+    <div class="row d-flex justify-content-center flex-nowrap">
+        <h3>Current occupancy</h3>
+    </div>
+    <div class="row d-flex justify-content-center flex-nowrap">
+        <h1 style="height: 100px;">{{ population }}</h1>
+    </div>
+{% endblock %}    
