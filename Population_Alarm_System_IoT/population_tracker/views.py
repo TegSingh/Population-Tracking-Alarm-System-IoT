@@ -6,8 +6,10 @@ from .models import Sensor_data
 from django.http import Http404
 
 # import the methods for API request
-# from rest_framework.decorators import api_view
-# from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .serializers import SensorDataSerializer
+
 
 # Create your views here.
 
@@ -50,13 +52,65 @@ def calculate_total_objects():
 
 # Following are the API views
 
-# @api_view(['GET'])
-# def apiOverview(request):
-#     url_patterns = {
-#         "List" : "/Sensor_data_list/", 
-#         "Detail" : "/Sensor_data_detail/<int:pk>", 
-#         "Create" : "/Sensor_data_create/",
-#         "Update" : "/Sensor_data_update/<int:pk>",
-#         "Delete" : "/Sensor_data_delete/<int:pk>",
-#     }
-#     return Response(url_patterns)
+# Method for an overview of API urls
+@api_view(['GET'])
+def apiOverview(request):
+    url_patterns = {
+        "List" : "/Sensor_data_list/", 
+        "Detail" : "/Sensor_data_detail/<int:pk>", 
+        "Create" : "/Sensor_data_create/",
+        "Update" : "/Sensor_data_update/<int:pk>",
+        "Delete" : "/Sensor_data_delete/<int:pk>",
+    }
+    return Response(url_patterns)
+
+# Method to get list of the sensor data
+@api_view(['GET'])
+def api_sensor_data_list(request): 
+    sensor_data = Sensor_data.objects.all()
+    # Serializer shows the JSON data in the correct format as a list
+    serializer = SensorDataSerializer(sensor_data, many=True)
+    return Response(serializer.data)
+
+# Method to detail one sensor_data
+@api_view(['GET'])
+def api_sensor_data_detail(request, pk): 
+    sensor_data = Sensor_data.objects.get(person_number = pk)
+    
+    # Raise an exception if element does not exist
+    if not Sensor_data.objects.get(person_number = pk):
+        raise Http404()
+
+    serializer = SensorDataSerializer(sensor_data, many=False)
+    return Response(serializer.data)
+
+# Method to create a tuple using JSON
+@api_view(['POST'])
+def api_sensor_data_create(request): 
+    serializer = SensorDataSerializer(data = request.data)
+    if serializer.is_valid():
+        serializer.save()
+
+    return Response(serializer.data)
+
+
+# Method to delete a row in Sensor_data
+@api_view(['DELETE'])
+def api_sensor_data_delete(request, pk): 
+    sensor_data = Sensor_data.objects.get(person_number = pk)
+    sensor_data.delete()
+
+    return Response(serializer.data)
+
+
+# Method to update a row in Sensor_data
+@api_view(['POST'])
+def api_sensor_data_update(request, pk): 
+    sensor_data = Sensor_data.objects.get(person_number = pk)
+    serializer = SensorDataSerializer(instance = sensor_data, data = request.data)
+    
+    if serializer.is_valid():
+        serializer.save()
+
+    return Response("Item deleted successfully")
+
