@@ -2,8 +2,9 @@ from django.db import models
 
 # Create your models here.
 class Sensor_data(models.Model):
+
     # Define the attributes in the table
-    person_number = models.IntegerField()
+    person_number = models.IntegerField(primary_key = True)
     distance = models.IntegerField()
     timestamp = models.DateTimeField(auto_now=True)
 

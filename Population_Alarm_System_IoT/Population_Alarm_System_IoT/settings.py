@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
     'population_tracker.apps.PopulationTrackerConfig',
     'django.contrib.admin',
     'django.contrib.auth',

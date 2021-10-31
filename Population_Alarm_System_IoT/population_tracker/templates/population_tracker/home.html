@@ -21,7 +21,7 @@
                     <td>{{ item.distance }}</td>
                     <td>{{ item.timestamp }}</td>
                     <td>
-                        <a class="btn btn-primary" href="{% url 'sensor_data_delete' item.id %}">Delete</a>
+                        <a class="btn btn-primary" href="{% url 'sensor_data_delete' item.person_number %}">Delete</a>
                     </td>
                 </tr>
                     {% endfor %}
